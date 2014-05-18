@@ -94,6 +94,8 @@
       xhr.onerror = failure;
 
       var params = 'Account.UserName=' + encodeURIComponent(username) + '&Account.PassWord=' + encodeURIComponent(password);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.setRequestHeader("Content-length", params.length);
       xhr.send(params);
 
       Pebble.sendAppMessage({ status: 'Logging in...' });
