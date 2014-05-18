@@ -246,6 +246,10 @@
 
     var username = getParameterByName('username');
 
+    var $star_type = $('#star_type');
+
+    var star_type = getParameterByName('star_type');
+
     function cardNumberInputCallback() {
       var left = validCardNumberLength - $cardNumber.value.length;
 
@@ -291,6 +295,18 @@
       payload['password'] = this.value;
     };
     $('#password').addEventListener('input', passwordInputListener, false);
+
+
+    /** @this {HTMLInputElement} */
+    function starTypeInputListener() {
+      payload['star_type'] = this.value
+    }
+    $star_type.addEventListener('change', starTypeInputListener, false);
+
+    if (star_type) {
+      $star_type.value = star_type;
+      payload['star_type'] = star_type;
+    }
 
     /** @param {Event} event */
     function saveAndCloseClickListener(event) {
