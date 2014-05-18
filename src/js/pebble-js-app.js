@@ -23,7 +23,7 @@
     if (currentXHR) {
       currentXHR.abort();
     }
-
+    var star_type = storage('star_type');
     var username = storage('username');
     var password = storage('password');
     if (username && password) {
@@ -66,7 +66,11 @@
 
           if (parseResponseText('customer_full_name')) {
             var rewards = parseResponseText('num_unredeemed_rewards') || '0';
-            var stars = parseResponseText('num_stars_till_next_drink') || '0';
+            if(star_type == 1) {
+              var stars = parseResponseText('cumulative_star_balance') || '0';
+            } else {
+              var stars = parseResponseText('num_stars_till_next_drink') || '0';
+            }
             var balance = parseResponseText('card_dollar_balance');
             if (balance) {
               balance = '$' + parseFloat(Math.round(balance * 100) / 100).toFixed(2);
@@ -118,6 +122,7 @@
     storeKeyFromPayload('card_number');
     storeKeyFromPayload('username');
     storeKeyFromPayload('password');
+    storeKeyFromPayload('star_type');
     
     if (payload.barcode_data) Pebble.sendAppMessage({ barcode: payload.barcode_data });
   });
@@ -125,6 +130,7 @@
   Pebble.addEventListener("showConfiguration", function() {
     var card_number = storage('card_number') || '';
     var username = storage('username') || '';
-    Pebble.openURL('http://a2.github.io/PebbleBucks/configure.html?card_number=' + encodeURIComponent(card_number) + '&username=' + encodeURIComponent(username));
+    var star_type = storage('star_type') || '';
+    Pebble.openURL('http://esw148.github.io/PebbleBucks/configure.html?card_number=' + encodeURIComponent(card_number) + '&username=' + encodeURIComponent(username) + '&star_type=' + encodeURIComponent(star_type));
   });
 }).call(this);
